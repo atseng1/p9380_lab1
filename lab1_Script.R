@@ -171,7 +171,7 @@ plot(states.verbal.laea, col = colcode, border = "grey",axes = F)
 title(main = "SAT verbal scores in 2010 \n by Ashley Tseng", 
       sub = "Data Source: College Board")
 legend("bottomleft", legend = names(attr(colcode,"table")), 
-       fill = attr(colcode, "palette"), cex=0.55)
+       fill = attr(colcode, "palette"), cex=0.45)
 
 writeOGR(states.verbal.laea, dsn = "working_directory", layer = "sat_verbal", driver = "ESRI Shapefile")
 
@@ -181,7 +181,36 @@ rstudioapi::documentSave()
 
 
 ###### LAB 1 ASSIGNMENT
+setwd("/Users/ashleytseng/OneDrive - cumc.columbia.edu/MPH/Spring 2020/EHSC P9380_Advanced GIS/Labs/Lab 1/p9380_lab1")
+sat_math = read.csv("sat_math.csv", stringsAsFactors = F, row.names = 1)
+head(sat_math, n = 50)
 
+states.math = SpatialPolygonsDataFrame(polystates, sat_math)
+## By default, "SpatialPolygonsDataFrame" will try to connect the spatial polygon objects to file names
+summary(states.math)
+
+states.math.laea = spTransform(states.math, CRS("+proj=laea +lat_0=43.0758 +lon_0=-89.3976"))
+
+plot(states.math.laea)
+summary(states.math.laea)
+
+
+library(classInt)
+
+plotvarmath = states.math.laea$math
+plotclrmath = brewer.pal(nclr, "Oranges")
+nclrmath = 5
+classmath = classIntervals(plotvarmath, nclrmath, style = "quantile")
+colcodemath = findColours(classmath, plotclrmath, digits = 3)
+plot(states.math.laea, col = colcodemath, border = "grey", axes = F)
+title(main = "SAT Math Scores in 2010 \n by Ashley Tseng", 
+      sub = "Data Source: College Board")
+legend("bottomleft", legend = names(attr(colcodemath, "table")), 
+       fill = attr(colcodemath, "palette"), cex=0.45)
+
+writeOGR(states.math.laea, dsn = "working_directory", layer = "sat_math", driver = "ESRI Shapefile")
+
+rstudioapi::documentSave()
 
 
 
