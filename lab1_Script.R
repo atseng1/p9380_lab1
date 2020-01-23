@@ -142,6 +142,8 @@ summary(states.verbal.laea)
 
 
 
+
+
 ############### MAPPING
 library(RColorBrewer)
 display.brewer.all()
@@ -154,6 +156,8 @@ nclr <- 5
 plotclr <- brewer.pal(nclr, "Greys")
 plotclr
 class <- classIntervals(plotvar, nclr, style = "quantile")
+## "classIntervals" tells R how we want to class the intervals
+## In this case, the intervals are quantiles
 class
 colcode <- findColours(class, plotclr, digits = 3)
 colcode
@@ -164,7 +168,7 @@ plotclr <- brewer.pal(nclr, "Purples")
 class <- classIntervals(plotvar, nclr, style = "quantile")
 colcode <- findColours(class, plotclr, digits = 3)
 plot(states.verbal.laea, col = colcode, border = "grey",axes = F)
-title(main = "SAT verbal scores in 2010 \n by Jeremy R. Porter", 
+title(main = "SAT verbal scores in 2010 \n by Ashley Tseng", 
       sub = "Data Source: College Board")
 legend("bottomleft", legend = names(attr(colcode,"table")), 
        fill = attr(colcode, "palette"), cex=0.55)
@@ -172,6 +176,12 @@ legend("bottomleft", legend = names(attr(colcode,"table")),
 writeOGR(states.verbal.laea, dsn = "working_directory", layer = "sat_verbal", driver = "ESRI Shapefile")
 
 rstudioapi::documentSave()
+
+
+
+
+###### LAB 1 ASSIGNMENT
+
 
 
 
